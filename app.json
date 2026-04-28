@@ -4,7 +4,7 @@
     "slug": "toDoList",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/taskColor.png",
+    "icon": "./assets/images/taskAppIcon.png",
     "scheme": "todolist",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,8 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/taskColor.png"
+        "backgroundColor": "#EEF4F8",
+        "foregroundImage": "./assets/images/taskAdaptiveForeground.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -22,19 +22,19 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/taskColor.png"
+      "favicon": "./assets/images/taskAppIcon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/taskColor.png",
+          "image": "./assets/images/taskAppIcon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#EEF4F8",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#101418"
           }
         }
       ],

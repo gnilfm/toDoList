@@ -3,7 +3,7 @@ import { ModoVisualLista } from "@/data/contexts/ListaContext";
 import { useTema } from "@/data/contexts/TemaContext";
 import Tarefa from "@/data/model/Tarefa";
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export interface ListaTarefaProps {
     tarefas: Tarefa[];
@@ -23,7 +23,11 @@ export default function ListaTarefa(proops: ListaTarefaProps) {
                 <Text style={[styles.textoTitulo, { color: tema.texto }]}>Lista de Tarefas</Text>
                 <Text style={[styles.contador, { color: tema.textoSuave }]}>{tarefasConcluidas}/{proops.tarefas.length}</Text>
             </View>
-            <View style={[styles.lista, proops.modoVisual === "blocos" && styles.listaBlocos]}>
+            <ScrollView
+                style={styles.rolagem}
+                contentContainerStyle={[styles.lista, proops.modoVisual === "blocos" && styles.listaBlocos]}
+                showsVerticalScrollIndicator={false}
+            >
                 {proops.tarefas.map((tarefa, i) => (
                     <View
                         key={tarefa.id}
@@ -56,7 +60,7 @@ export default function ListaTarefa(proops: ListaTarefaProps) {
                         </View>
                     </View>
                 ))}
-            </View>
+            </ScrollView>
 
         </View>
     );
@@ -67,6 +71,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         gap: 12,
+        minHeight: 0,
     },
     cabecalho: {
         flexDirection: "row",
@@ -74,8 +79,12 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginBottom: 2,
     },
+    rolagem: {
+        flex: 1,
+    },
     lista: {
         gap: 12,
+        paddingBottom: 36,
     },
     listaBlocos: {
         flexDirection: "row",
