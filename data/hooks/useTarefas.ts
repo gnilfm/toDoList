@@ -19,6 +19,12 @@ export default function useTarefas() {
 
     function adicionarTarefa(tarefa: Partial<Tarefa>) {
         if (tarefa.descricao) {
+            if (tarefa.id) {
+                alterarTarefas(tarefas.map((t) => t.id === tarefa.id ? { ...t, descricao: tarefa.descricao! } : t));
+                setTarefa({});
+                return;
+            }
+
             const novaTarefa: Tarefa = {
                 id: Id.gerar(),
                 descricao: tarefa.descricao,
@@ -42,6 +48,9 @@ export default function useTarefas() {
         alterarItem("tarefas", tarefas);
     }
 
+    function alterarTarefa(tarefa: Tarefa) {
+        setTarefa(tarefa);
+    }
 
     return {
         tarefa,
@@ -49,6 +58,8 @@ export default function useTarefas() {
         adicionarTarefa,
         excluirTarefa,
         concluirTarefa,
+        alterarTarefas,
+        alterarTarefa,
         setTarefa
     }
 }

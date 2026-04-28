@@ -1,31 +1,62 @@
 
+import { ModoVisualLista } from "@/data/contexts/ListaContext";
+import { useTema } from "@/data/contexts/TemaContext";
 import Tarefa from "@/data/model/Tarefa";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export interface ListaTarefaProps {
     tarefas: Tarefa[];
     excluirTarefa: (tarefa: Tarefa) => void;
     concluirTarefa: (tarefa: Tarefa) => void;
+    alterarTarefa: (tarefa: Tarefa) => void;
+    modoVisual: ModoVisualLista;
 }
 
 export default function ListaTarefa(proops: ListaTarefaProps) {
+    const { tema } = useTema();
+    const tarefasConcluidas = proops.tarefas.filter((tarefa) => tarefa.concluida).length;
+
     return (
         <View style={styles.container}>
-            <Text style={styles.textoTitulo}>Lista de Tarefas</Text>
-            {proops.tarefas.map((tarefa, i) => (
-                <View key={tarefa.id} style={[styles.tarefaItem, { borderRadius: 10, borderWidth: 1, borderColor: i % 2 === 0 ? "#7d7e7dff" : "#c7c3c3ff" }]}>
-                    <Text style={[styles.textoSubTitulo,
-                    { color: tarefa.concluida ? "#979c98ff" : "#b3c1ceff" },
-                    { textDecorationLine: tarefa.concluida ? "line-through" : "none" }]}>{tarefa.descricao} </Text>
-                    <View style={styles.icons}>
-                        {tarefa.concluida ?
-                            <Ionicons name="reload" size={24} color="#fc9e52ff" onPress={() => proops.concluirTarefa(tarefa)} />
-                            : <Ionicons name="checkmark" size={24} color="#62a370ff" onPress={() => proops.concluirTarefa(tarefa)} />}
-                        <Ionicons name="trash" size={24} color="#f57272ff" style={{ opacity: 0.6 }} onPress={() => proops.excluirTarefa?.(tarefa)} />
+            <View style={styles.cabecalho}>
+                <Text style={[styles.textoTitulo, { color: tema.texto }]}>Lista de Tarefas</Text>
+                <Text style={[styles.contador, { color: tema.textoSuave }]}>{tarefasConcluidas}/{proops.tarefas.length}</Text>
+            </View>
+            <View style={[styles.lista, proops.modoVisual === "blocos" && styles.listaBlocos]}>
+                {proops.tarefas.map((tarefa, i) => (
+                    <View
+                        key={tarefa.id}
+                        style={[
+                            styles.tarefaItem,
+                            proops.modoVisual === "blocos" && styles.tarefaBloco,
+                            {
+                                backgroundColor: tema.superficie,
+                                borderColor: tarefa.concluida ? tema.borda : i % 2 === 0 ? tema.destaque : tema.borda
+                            }
+                        ]}
+                    >
+                        <Text style={[styles.textoSubTitulo,
+                        proops.modoVisual === "blocos" && styles.textoBloco,
+                        { color: tarefa.concluida ? tema.tarefaConcluida : tema.texto },
+                        { textDecorationLine: tarefa.concluida ? "line-through" : "none" }]}>{tarefa.descricao}
+                        </Text>
+                        <View style={[styles.icons, proops.modoVisual === "blocos" && styles.iconsBloco]}>
+                            {!tarefa.concluida ? (
+                                <Pressable style={styles.botaoIcone} onPress={() => proops.alterarTarefa(tarefa)}>
+                                    <Ionicons name="create-outline" size={22} color={tema.iconeEditar} />
+                                </Pressable>
+                            ) : null}
+                            <Pressable style={styles.botaoIcone} onPress={() => proops.concluirTarefa(tarefa)}>
+                                <Ionicons name={tarefa.concluida ? "refresh-outline" : "checkmark-outline"} size={22} color={tarefa.concluida ? tema.iconeEditar : tema.iconeConcluir} />
+                            </Pressable>
+                            <Pressable style={styles.botaoIcone} onPress={() => proops.excluirTarefa?.(tarefa)}>
+                                <Ionicons name="trash-outline" size={22} color={tema.iconeExcluir} />
+                            </Pressable>
+                        </View>
                     </View>
-                </View>
-            ))}
+                ))}
+            </View>
 
         </View>
     );
@@ -35,31 +66,70 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-        gap: 10,
+        gap: 12,
+    },
+    cabecalho: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 2,
+    },
+    lista: {
+        gap: 12,
+    },
+    listaBlocos: {
+        flexDirection: "row",
+        flexWrap: "wrap",
     },
     tarefaItem: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         gap: 10,
-        paddingHorizontal: 10,
+        minHeight: 58,
+        paddingHorizontal: 14,
+        borderRadius: 8,
+        borderWidth: 1,
+    },
+    tarefaBloco: {
+        width: "48%",
+        minHeight: 132,
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "space-between",
+        paddingVertical: 14,
     },
     icons: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "flex-end",
         alignItems: "center",
-        gap: 20,
-        padding: 10,
+        gap: 8,
+    },
+    iconsBloco: {
+        justifyContent: "flex-start",
+        paddingTop: 8,
+    },
+    botaoIcone: {
+        alignItems: "center",
+        justifyContent: "center",
+        width: 36,
+        height: 36,
     },
     textoTitulo: {
         fontSize: 22,
-        textAlign: "center",
-        marginBottom: 10,
-        color: "#F9FAFB",
+        fontWeight: "700",
+    },
+    contador: {
+        color: "#94A3B8",
+        fontSize: 14,
+        fontWeight: "700",
     },
     textoSubTitulo: {
-        textAlign: "center",
+        flex: 1,
         fontSize: 20,
-        color: "#F9FAFB",
+    },
+    textoBloco: {
+        flex: 0,
+        lineHeight: 26,
     },
 });

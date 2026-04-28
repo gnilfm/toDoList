@@ -1,9 +1,12 @@
 import Tarefas from "@/components/tarefas/Tarefas";
+import { useTema } from "@/data/contexts/TemaContext";
 import { StyleSheet, View } from "react-native";
 
 export default function Index() {
+  const { tema } = useTema();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: tema.fundo }]}>
       <Tarefas />
     </View>
   );
@@ -12,16 +15,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    gap: 10,
-    backgroundColor: "#f50b0bff",
-    height: 800,
   },
-  texto: {
-    fontSize: 20,
-    color: "blue",
-    fontWeight: "bold",
-  },
-
 });
