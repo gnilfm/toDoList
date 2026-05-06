@@ -8,11 +8,12 @@ export default function BotaoListaCabecalho() {
     const { tema } = useTema();
 
     return (
-        <Pressable onPress={alternarModoVisual} style={{ marginLeft: 18 }}>
+        <Pressable onPress={alternarModoVisual} style={{ marginLeft: 18, marginRight: 10 }}>
             <Ionicons
                 name={modoVisual === "lista" ? "grid-outline" : "list"}
                 size={34}
-                color={tema.iconeNavegacao}
+                color={tema.destaque}
+
             />
         </Pressable>
     );
