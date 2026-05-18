@@ -19,14 +19,16 @@ export default function Tarefas() {
 
     return (
         <View style={[styles.container, { backgroundColor: tema.fundo }]}>
-            <FormTarefa tarefa={tarefa} adicionarTarefa={adicionarTarefa} />
-            <ListaTarefa
-                tarefas={tarefas}
-                excluirTarefa={excluirTarefa}
-                concluirTarefa={concluirTarefa}
-                alterarTarefa={alterarTarefa}
-                modoVisual={modoVisual}
-            />
+            <View style={styles.conteudo}>
+                <FormTarefa tarefa={tarefa} adicionarTarefa={adicionarTarefa} />
+                <ListaTarefa
+                    tarefas={tarefas}
+                    excluirTarefa={excluirTarefa}
+                    concluirTarefa={concluirTarefa}
+                    alterarTarefa={alterarTarefa}
+                    modoVisual={modoVisual}
+                />
+            </View>
         </View>
     );
 }
@@ -38,7 +40,14 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
         width: "100%",
         maxWidth: 760,
-        gap: 22,
-        padding: 18,
+        gap: 18,
+        paddingHorizontal: 18,
+        paddingTop: 12,
+        paddingBottom: 18,
+    },
+    conteudo: {
+        flex: 1,
+        gap: 16,
+        minHeight: 0,
     },
 });

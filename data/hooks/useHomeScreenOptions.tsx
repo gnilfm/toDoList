@@ -9,7 +9,7 @@ export default function useHomeScreenOptions() {
         title: "Minhas tarefas",
         headerStyle: { backgroundColor: tema.fundo },
         headerTintColor: tema.texto,
-        headerTitleStyle: { fontWeight: "700" as const },
+        headerTitleStyle: { fontWeight: "800" as const, fontSize: 18 },
         headerShadowVisible: false,
         headerShown: true,
         headerLeft: () => <BotaoListaCabecalho />,

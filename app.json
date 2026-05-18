@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#EEF4F8",
+        "backgroundColor": "#0B1120",
         "foregroundImage": "./assets/images/taskAdaptiveForeground.png"
       },
       "edgeToEdgeEnabled": true,
@@ -32,9 +32,9 @@
           "image": "./assets/images/taskAppIcon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#EEF4F8",
+          "backgroundColor": "#0B1120",
           "dark": {
-            "backgroundColor": "#101418"
+            "backgroundColor": "#0B1120"
           }
         }
       ],
